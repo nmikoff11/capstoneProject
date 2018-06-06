@@ -1,0 +1,235 @@
+<html>
+    <head>
+        <title>Find Entries</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+              crossorigin="anonymous">
+        <script type="text/template" id="trackIt"></script>
+
+        <style>
+            a{
+                display: block;
+                text-decoration: none;
+                margin-right: 0;   /* space between links */
+                width: auto; /* adjust width as needed or use auto */
+                font-weight: bold;
+                color: black;
+            }
+            #tableInfo{
+                text-align: right;                
+                font-style: normal;
+                font-size: 72;
+                color: #e6e6ff;
+                border: black 2px;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            #header{
+                text-align: center;                 
+                font-size: inherit;
+                color: #102a54;
+                border: black 2px;
+                margin-top: 0;
+                font-weight: bold;
+                margin-bottom: 0;
+            }
+            #quickAdd{
+                background-color: white;
+                border: 2px solid black;
+                height:auto;
+                box-shadow: 10px 6px 5px grey;
+            }
+            #selectDate{
+               
+                color: #e6e6ff;
+            }
+            hr{
+                size: 3px;
+            }
+            li{
+                border-left: 1px solid grey;
+                border-bottom: 1px solid grey;
+            }
+            #searchButton{
+                background-color: #000080;
+                border: 2px solid white;                
+                padding: 10px 15px;
+                color: white;
+                text-align: center;
+                display: inline-block;
+                font-size: 20px;
+                border-radius: 6px;
+            }
+            #boxshadow img {
+                width: 100%;
+                border: 1px solid #8a4419;
+                border-style: inset;
+            }
+            footer{
+                background-color: black;
+                margin-top: 0;
+                margin-bottom: 0;
+                padding: none;
+            }
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            th{
+                border: 2px solid black;
+                background-color: #000080;
+                color: #e6e6ff;
+                text-align: center;
+                padding: 10px;
+            }
+            td{
+                border: 2px solid black;
+                background-color: white;
+                color: black;
+                text-align: center;
+                padding: 10px;
+            }
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+                position: sticky;
+            }
+            li {
+                float: left;
+            }
+            li a {
+                display: block;
+                color: #e6e6ff;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+            /* Change the link color to #111 (black) on hover */
+            li a:hover {
+                background-color: #111;
+            }
+            li a:active {
+                background-color: #4CAF50;
+            }
+            #body{
+                background-image: url("chartGuyImage.jpg")
+            }
+        </style>
+
+    </head>
+    <body background="moneyBannerCopy.jpg">
+        <div class="header" style="padding: 0;" id="header">
+            <h1>TrackIt</h1>
+            <ul>
+                <li><a href="/index"><font size="4"><span class="glyphicon glyphicon-home"></span>Home</font></a>
+                </li>
+                <li><a href="/addEntry"><font size="4"><span class="glyphicon glyphicon-plus"></span>Add Entry</font></a>
+                </li>
+                <li>
+                    <a href="/findEntry"><font size="4"><span class="glyphicon glyphicon-calendar"></span>Date-Range Overview</font></a>
+                </li>
+                <li>
+                    <a href="/addCategory"><font size="4"><span class="glyphicon glyphicon-calendar"></span>Update Categories</font></a>
+                </li>
+                <li>
+                    <a href="/paycheck"><font size="4"><span class="glyphicon glyphicon-usd"></span>Income</font></a>
+                </li>
+                <li>
+                    <a href="/deleteCategory"><font size="4"><span class="glyphicon glyphicon-minus"></span>Delete Category</font></a>
+                </li>
+            </ul>
+        </div>
+        <div class="container-fluid" style="background-color: #E0E0E0; margin: none; padding-top: 20px;" id="body">
+            <div class="col-md-3">
+                <div class="row" id="row2">
+                    <div class="col-md-12">
+                        <form method="POST">
+                            <div class="form-check col-md-8" id="selectDate">
+                                <h3 style="text-align: center">Select Dates</h3>
+                                <hr/>
+                            </div>
+                            <br>
+                            <div class="input-group date col-md-8">
+                                <div class="col-md-12" style="color: #e6e6ff;">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    <label for="datepicker1">Start Date:</label>
+                                    <input type="date" name="startDate"  class="form-control" id="datepicker1" >
+                                </div>
+                                <div class="col-md-12" style="color: #e6e6ff;">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    <label for="datepicker2" >End Date:</label>
+                                    <input type="date" name="endDate" class="form-control" id="datepicker2">
+                                </div>
+                            </div>
+                            <br>
+
+                            <button type="submit" id="searchButton">Search Date</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9" id="dayActivity">
+
+                <div class="row col-md-12" id="tableInfo">
+                    <h1>Days We Tracked</h1>
+                    <div class="col-md-12">
+                        <table id="dateRangeTable">
+                            <tr>
+                                <th>Date</th>
+                                <th>Income Total</th>
+                                <th>Expense Total</th>
+                                <th>Day Balance</th>
+                            </tr>
+                            <tr th:each="dayTotal: ${entriesFound}">
+                                <td th:text="${dayTotal.entryDate}"></td>
+                                <td th:text="${dayTotal.incomeTotal}"></td> 
+                                <td th:text="${dayTotal.expenseTotal}"></td>
+                                <td th:text="${dayTotal.dayTotal}"></td>                
+                            </tr>
+                            <tr th:each="rangeTotal: ${rangeTotals}" style="color: #e6e6ff;">
+                                <td style="color: #e6e6ff;border: none; background: none">Range Totals: </td>
+                                <td style="color: #e6e6ff;border: none; background: none" th:text="${rangeTotal.incomeTotal}"></td> 
+                                <td style="color: #e6e6ff;border: none; background: none" th:text="${rangeTotal.expenseTotal}"></td>
+                                <td style="color: #e6e6ff;border: none; background: none" th:text="${rangeTotal.totalBalance}"></td>                
+                            </tr>
+                    </div>
+                    </table>
+                        <div class="row col-md-12" id="tableInfo">
+                    <h1>Entries We Tracked</h1>
+                    <div class="col-md-12">
+                        <table id="dateRangeTable">
+                            <tr>
+                                <th>Date</th>
+                                <th>Category Id</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr th:each="entry: ${entriesInSystem}">
+                                    <td th:text="${entry.entryDate}"></td>
+                                    <td th:text="${entry.Category.id}"></td>
+                                    <td th:text="${entry.amount}"></td>                                    
+                            </div>                            
+                        </div>
+                    </table>
+                </div>
+                </div>
+            </div>
+            <div class="footer" style="background-color: black">
+            </div>
+
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+            <!-- Optional theme -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+            <script src="js/trackit.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </body>
+
+</html>

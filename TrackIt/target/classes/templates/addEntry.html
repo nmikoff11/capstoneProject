@@ -1,0 +1,225 @@
+<html>
+    <head>
+        <title>Add Entry</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+              crossorigin="anonymous">
+        <script type="text/template" id="trackIt"></script>
+
+        <style>
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+            }
+
+            li {
+                float: left;
+            }
+
+            li a {
+                display: block;
+                color: #e6e6ff;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+            /* Change the link color to #111 (black) on hover */
+            li a:hover {
+                background-color: #111;
+            }
+            a{
+                display: block;
+                text-decoration: none;
+                margin-right: 0;   /* space between links */
+                width: auto; /* adjust width as needed or use auto */
+                font-weight: bold;
+                color: black;
+            }
+            h1{
+                text-align: left;
+                text-shadow: 2px 2px grey;
+                font-style: normal;
+                font-size: 72;
+                color: #102a54;
+                border: black 2px;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            #quickAdd{
+                background-color: white;
+                border: 2px solid black;
+                height:auto;
+                box-shadow: 10px 6px 5px grey;
+            }
+            h2{
+                text-align: Right;
+                text-shadow: 2px 2px grey;
+                font-style: normal;
+                olor: #e6e6ff;
+                border: black 2px;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            hr{
+                margin-top: 0.5em;
+                margin-bottom: 0.5em;
+                margin-left: auto;
+                margin-right: auto;
+                border-style: solid;
+                border-width: 4px;
+            }
+            .active {
+                background-color: #4CAF50;
+            }
+            #boxshadow img {
+                width: 100%;
+                border: 1px solid #8a4419;
+                border-style: inset;
+            }
+            footer{
+                background-color: black;
+                margin-top: 0;
+                margin-bottom: 0;
+                padding: 0;
+            }
+            th{
+                border: 2px solid black;
+                background-color: #000080;
+                color: #e6e6ff;
+                text-align: center;
+                padding: 10px;
+                width: 200px;
+            }
+            td{
+                border: 2px solid white;
+                background-color: black;
+                color: white;
+
+            }
+            #body{
+                background-image: url("silkyBlue.jpg");
+            }
+            #entryButton{
+                background-color: #000080;
+                border: 2px solid white;                
+                padding: 10px 15px;
+                color: white;
+                text-align: center;
+                display: inline-block;
+                font-size: 20px;
+                border-radius: 6px;
+            }
+        </style>
+    </head>
+    <body background="moneyBannerCopy.jpg">
+        <div class="header" style="padding: 0">
+            <h1>TrackIt</h1>
+            <ul>
+                <li><a href="/index"><font size="4"><span class="glyphicon glyphicon-home"></span>Home</font></a>
+                </li>
+                <li><a href="/addEntry"><font size="4"><span class="glyphicon glyphicon-plus"></span>Add Entry</font></a>
+                </li>
+                <li>
+                    <a href="/findEntry"><font size="4"><span class="glyphicon glyphicon-calendar"></span>Date-Range Overview</font></a>
+                </li>
+                <li>
+                    <a href="/addCategory"><font size="4"><span class="glyphicon glyphicon-plus"></span>Add Categories</font></a>
+                </li>   
+                <li>
+                    <a href="/paycheck"><font size="4"><span class="glyphicon glyphicon-usd"></span>Income</font></a>
+                </li>
+                <li>
+                    <a href="/deleteCategory"><font size="4"><span class="glyphicon glyphicon-minus"></span>Delete Category</font></a>
+                </li>
+            </ul>
+        </div>
+        <div class="container-fluid" style="background-color: #E0E0E0; margin: 0; padding-top: 20px;" id="body">
+            <div class="row col-lg-6" id="row5">
+                <form method="POST">
+                    <h3 style="color: #e6e6ff; text-align: left">Entry Type</h2>
+                    <div class="col-md-12">                    
+                        <div class="col-md-6" style="color: #e6e6ff;">                          
+                            <input type="radio" name="entryType.entryTypeId" value="1" ><font size="3">Expense</font>
+                        </div>
+                        <div class="col-md-6" style="color: #e6e6ff;"> 
+                            <input type="radio" name="entryType.entryTypeId" value="2"><font size="3">Income</font>
+                        </div>   
+                    </div>
+                    
+                    <form method="POST">
+                    <h3 style="color: #e6e6ff; text-align: left">Entry frequency</h2>
+                    <div class="col-md-12">                    
+                        <div class="col-md-3" style="color: #e6e6ff;">                          
+                            <input type="radio" name="frequency" value="single" ><font size="3">Single</font>
+                        </div>
+                        <div class="col-md-3" style="color: #e6e6ff;"> 
+                            <input type="radio" name="frequency" value="weekly"><font size="3">Weekly</font>
+                        </div>
+                        <div class="col-md-3" style="color: #e6e6ff;"> 
+                            <input type="radio" name="frequency" value="monthly"><font size="3">Monthly</font>
+                        </div>                    
+                        <div class="col-md-3" style="color: #e6e6ff;"> 
+                        <input type="radio" name="frequency" value="yearly"><font size="3">Yearly</font>
+                        </div>
+                    </div>
+            <div class="input-group date col-md-6" style="color: #e6e6ff;">                            
+                <label for="datepicker2"><span class="glyphicon glyphicon-calendar"></span>Date:</label>
+                <input type="date" name="entryDate" class="form-control" id="datepicker2" th:value="${entry.entryDate}">
+            </div>
+            <hr/>
+            <div class="col-md-12" style="background-image: url(categoriesBackground.jpg); border: 4px solid white">
+                <h2 style="text-align: center; color: #e6e6ff;">Categories</h2>
+                <div class="col-md-4" th:each="category: ${categories}" style="color: #e6e6ff;">
+                    <input type="radio" name="category.id" th:text="${category.id}+'. '+${category.categoryName}" th:value="${category.id}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="amountBox" style="color: #e6e6ff;">Amount: </label>
+                <input type="text" name="amount" id="amountBox">
+            </div>
+            <div class="col-md-12">
+                <hr/>
+
+                <button type="submit" id="entryButton">Add Entry</button>
+                </form>
+
+            </div>
+        </div>
+        <div class="row col-md-6" id="row6">
+            <div class="col-md-12" id="tableInfo">
+                <h2 style="color: #e6e6ff; text-align: right" >Tracked It</h2>
+
+                <table style="padding-Right:0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tr th:each="entry: ${entriesAdded}">
+                        <td th:text="${entry.entryDate}"></td>
+                        <td th:text="${entry.Category.id}"></td>
+                        <td th:text="${entry.amount}"></td>                                    
+                        </div>
+                </table>
+                <br>
+            </div>
+        </div>
+        <div class="footer" style="background-color: black">
+        </div>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="js/trackit.js "></script>
+    </body>
+</html>
