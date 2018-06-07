@@ -47,6 +47,7 @@ public class Entry implements Serializable{
        private EntryType entryType;
        
        private String frequency;
+       
 
     public String getFrequency() {
         return frequency;

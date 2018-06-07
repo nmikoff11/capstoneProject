@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.stage.Stage;
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +35,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class TrackItController {
 
     List<Entry> entriesJustAdded = new ArrayList<>();
-    List<Entry> entries;
-    List<Entry> entriesInSystem;
+    
+    List<Entry> singleEntriesInSystem = new ArrayList<>();
     List<dayTotal> entriesFound = new ArrayList<>();
     List<dayTotal> dayTotals = new ArrayList<>();
     List<RangeTotal> rangeTotals;
@@ -52,16 +53,15 @@ public class TrackItController {
     public String findEntries(Model model) {
         model.addAttribute("search", new SearchCriteria());
         model.addAttribute("entriesFound", entriesFound);
-        model.addAttribute("entriesInSystem", entriesInSystem);
+        model.addAttribute("singleEntriesInSystem", singleEntriesInSystem);
         model.addAttribute("rangeTotals", rangeTotals);
         return "/findEntry";
     }
 
     @PostMapping("/findEntry")
-    public String findEntries(@Valid SearchCriteria search) {
-        entriesJustAdded.clear();
+    public String findEntries(@Valid SearchCriteria search) throws javax.xml.bind.ValidationException {
         entriesFound = entryService.findDayTotalsByDates(search, dayTotalService.allDayTotals().getPayload());
-        entriesInSystem = entryService.findEntriesByDates(search, entryService.allEntries().getPayload());
+        singleEntriesInSystem = entryService.findSingleEntriesByDates(search, entryService.allEntries().getPayload());
         rangeTotals = entryService.rangeTotals(entriesFound);
         return "redirect:/findEntry";
     }
@@ -70,17 +70,24 @@ public class TrackItController {
     public String index(Model model) {
         entriesFound.clear();
         model.addAttribute("entry", new Entry());
-        model.addAttribute("categories", categoryService.allCategories().getPayload());
+        model.addAttribute("categories", categoryService.activeCategories(categoryService.allCategories().getPayload()));
         model.addAttribute("entriesAdded", entriesJustAdded);
         return "/addEntry";
     }
 
     @PostMapping("/addEntry")
-    public String add(@Valid Entry entry) {
+    public String add(@Valid Entry entry) throws javax.xml.bind.ValidationException{
         entriesFound.clear();
+        entriesJustAdded.clear();
+        try{
         entriesJustAdded = entryService.makeEntries(entry, dayTotalService.allDayTotals().getPayload(),
-                categoryService.allCategories().getPayload());        
+        categoryService.allCategories().getPayload());        
         entriesFound = dayTotalService.allDayTotals().getPayload();
+        }
+        catch(ValidationException e){
+            e.getMessage();
+            return "/addEntry";
+        }
         return "redirect:/addEntry";
     }
 
@@ -88,6 +95,7 @@ public class TrackItController {
     public String quickAdd(Model model) {
         entriesJustAdded.clear();
         model.addAttribute("entry", new Entry());
+        model.addAttribute("dayTotal", dayTotalService.allDayTotals().getPayload());
         model.addAttribute("categories", categoryService.quickAddCategory());
         return "/index";
     }
@@ -106,7 +114,7 @@ public class TrackItController {
     public String addCategory(Model model) {
         model.addAttribute("category", new Category());
         model.addAttribute("quickAddList", categoryService.quickAddCategory());
-        model.addAttribute("categories", categoryService.allCategories().getPayload());
+        model.addAttribute("categories", categoryService.activeCategories(categoryService.allCategories().getPayload()));
         return "/addCategory";
     }
 
@@ -126,23 +134,28 @@ public class TrackItController {
     @PostMapping("/paycheck")
     public String addPay(@Valid Paycheck paycheck) {
         payService.save(paycheck);
+        try{
         entriesJustAdded = entryService.makePaycheckEntries(paycheck,
         dayTotalService.allDayTotals().getPayload(),
-        categoryService.allCategories().getPayload());
-
+        categoryService.allCategories().getPayload());        
+        }
+        catch(javax.xml.bind.ValidationException e){
+            e.getMessage();
+            return "/paycheck";
+        }
         return "redirect:/paycheck";
     }
 
     @GetMapping("/deleteCategory")
     public String deleteCategory(Model model, Integer categoryId) {
         model.addAttribute("categoryId", categoryId);
-        model.addAttribute("categories", categoryService.allCategories().getPayload());
+        model.addAttribute("categories", categoryService.activeCategories(categoryService.allCategories().getPayload()));
         return "/deleteCategory";
     }
 
     @PostMapping("/deleteCategory")
     public String deleteCategory(Integer categoryId) {
-        categoryService.deleteById(categoryId);
-        return "redirect:/paycheck";
+        categoryService.disableById(categoryService.allCategories().getPayload(), categoryId);
+        return "redirect:/deleteCategory";
     }
 }

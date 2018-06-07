@@ -5,12 +5,12 @@
  */
 package com.sg.trackit.service;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import com.sg.trackit.data.CategoryRepository;
+import com.sg.trackit.models.Category;
+import java.util.List;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -18,30 +18,25 @@ import static org.junit.Assert.*;
  */
 public class CategoryServiceJpaTest {
     
+    CategoryRepository categoryRepo;
+    
+    CategoryService categoryService;
+    
     public CategoryServiceJpaTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        
+        categoryService = new CategoryServiceJpa();
     }
 
-    /**
-     * Test of allCategories method, of class CategoryServiceJpa.
-     */
     @Test
     public void testAllCategories() {
+         Result<List<Category>> result = categoryService.allCategories();
+        
+        
+        
+        assertTrue(result.isSuccess());
+        
+        
     }
+    
     
 }

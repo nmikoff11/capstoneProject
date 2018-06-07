@@ -9,12 +9,6 @@ import com.sg.trackit.data.CategoryRepository;
 import com.sg.trackit.models.Category;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,9 +46,27 @@ public class CategoryServiceJpa implements CategoryService{
         }        
         return quickAddCategories;
     }
+    
     @Override
-    public Result deleteById(int categoryId){
-        categoryRepo.deleteById(categoryId);
-        return new Result<>();        
+    public void disableById(List<Category> categories, int categoryId){
+        for (Category c : categories){
+            if(c.getId() == categoryId){
+                c.setIsActive("false");
+                save(c);
+                break;
+            }
+        }      
+    }
+    
+    @Override
+    public List<Category> activeCategories(List<Category> categories){
+        List<Category> active = new ArrayList<>();
+        
+        for(Category c: categories){
+            if(c.getIsActive().equalsIgnoreCase("true")){
+                active.add(c);
+            }
+        }
+        return active;
     }
 }

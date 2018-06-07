@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.sg.trackit.service.CategoryServiceJpaTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.126 s - in com.sg.trackit.service.CategoryServiceJpaTest
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.194 s <<< FAILURE! - in com.sg.trackit.service.CategoryServiceJpaTest
+testAllCategories(com.sg.trackit.service.CategoryServiceJpaTest)  Time elapsed: 0.008 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.sg.trackit.service.CategoryServiceJpaTest.testAllCategories(CategoryServiceJpaTest.java:32)
+

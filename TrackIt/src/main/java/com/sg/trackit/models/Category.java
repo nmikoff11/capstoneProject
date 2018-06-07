@@ -38,6 +38,17 @@ public class Category implements Serializable {
     private BigDecimal standardValue;
     
     private String frequency;
+    
+    private String isActive;
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
+    
 
     public String getFrequency() {
         return frequency;

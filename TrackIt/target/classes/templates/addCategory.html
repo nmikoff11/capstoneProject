@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Add Entry</title>
+        <title>Add Category</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -148,6 +148,9 @@
                         <label for="nameOfCategory" style="color: #e6e6ff;">Name: </label>
                         <input type="text" name="categoryName" id="nameOfCategory">
                     </div>
+                    <div class="col-md-6">                          
+                        <input type="hidden" name="isActive" value="true">
+                    </div>
                     <div class="col-md-6">
                         <label for="standardValue" style="color: #e6e6ff;">Amount: </label>
                         <input type="text" name="standardValue" id="standardValue">
@@ -187,7 +190,11 @@
                     </div>
                     <div class="col-md-6">                          
                         <input type="hidden" name="isAlwaysExpense" value="0">
-                    </div>  
+                    </div> 
+                    <div class="col-md-6">                          
+                        <input type="hidden" name="isActive" value="true">
+                    </div>
+                    
                     <div class="col-md-12">                    
                         <div class="col-md-3" style="color: #e6e6ff;">                          
                             <input type="radio" name="frequency" value="single" ><font size="3">Single</font>

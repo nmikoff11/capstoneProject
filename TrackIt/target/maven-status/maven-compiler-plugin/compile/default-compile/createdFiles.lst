@@ -9,6 +9,7 @@ com\sg\trackit\models\Category.class
 com\sg\trackit\models\RangeTotal.class
 com\sg\trackit\data\EntryRepository.class
 com\sg\trackit\service\EntryService.class
+com\sg\trackit\controller\LoginController.class
 com\sg\trackit\models\EntryType.class
 com\sg\trackit\models\dayTotal.class
 com\sg\trackit\App.class

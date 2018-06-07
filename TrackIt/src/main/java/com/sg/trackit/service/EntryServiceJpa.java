@@ -19,13 +19,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javafx.collections.FXCollections;
-import static javafx.collections.FXCollections.observableArrayList;
-import javafx.collections.ObservableList;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
-import javafx.stage.Stage;
+
+import javax.xml.bind.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +54,7 @@ public class EntryServiceJpa implements EntryService {
         for(Category c : categories){
             if(c.getId() == entry.getCategory().getId() && c.getIsDefault() == 1){
                 entry.setAmount(c.getStandardValue());
+                entry.setFrequency("single");
                 break;
             }
         }
@@ -115,9 +111,8 @@ public class EntryServiceJpa implements EntryService {
     }
 
     @Override
-    public void calculateDayTotals(List<dayTotal> entries, Entry e) {
-        dayTotal day = new dayTotal();
-                
+    public void calculateDayTotals(List<dayTotal> entries, Entry e){
+        dayTotal day = new dayTotal();                
         boolean isDayAlready = false;
         for (dayTotal d : entries) {            
             day = d;
@@ -159,7 +154,7 @@ public class EntryServiceJpa implements EntryService {
             }       
     }    
     @Override
-    public List<RangeTotal> rangeTotals(List<dayTotal> totals){
+    public List<RangeTotal> rangeTotals(List<dayTotal> totals) throws ValidationException{
         List<RangeTotal> totalList = new ArrayList<>();
         
         RangeTotal r = new RangeTotal();
@@ -180,7 +175,7 @@ public class EntryServiceJpa implements EntryService {
     }
     
     @Override
-    public List<Entry> makePaycheckEntries(Paycheck paycheck, List<dayTotal> dayTotals, List<Category> categories){
+    public List<Entry> makePaycheckEntries(Paycheck paycheck, List<dayTotal> dayTotals, List<Category> categories) throws ValidationException{
         int entries = 0;
         List<Entry> entriesAdded = new ArrayList<>();
         EntryType e = new EntryType(); 
@@ -210,11 +205,6 @@ public class EntryServiceJpa implements EntryService {
             dailyPay = paycheck.getIncomeTotal().divide(biweekly, 2, RoundingMode.HALF_UP);            
             entries = 14;
         }
-//        if(frequency.equalsIgnoreCase("monthly")){
-//            BigDecimal dailyPay = paycheck.getIncomeTotal().multiply(new BigDecimal(12));
-//            dailyPay = dailyPay.divide(new BigDecimal(365));
-//            entries = ;
-//        }
         if(frequency.equalsIgnoreCase("yearly")){
             dailyPay = paycheck.getIncomeTotal().divide(yearly, 2, RoundingMode.HALF_UP); 
             entries = 365;
@@ -247,7 +237,7 @@ public class EntryServiceJpa implements EntryService {
         
         for(Category a : categories){
             if(a.getId() == entry.getCategory().getId()){
-                c.setId(a.getId());
+                c = a;
             }
         } 
         
@@ -286,5 +276,35 @@ public class EntryServiceJpa implements EntryService {
              calculateDayTotals(dayTotals, e);
         }    
         return entriesAdded;
+    }    
+    @Override
+    public List<Entry> findSingleEntriesByDates(SearchCriteria search, List<Entry> entries) {        
+        List<Entry> foundEntries = new ArrayList<>();
+        List<Entry> singleEntries = new ArrayList<>();
+        for (Entry d : entries) {
+            
+            if (d.getEntryDate().isAfter(search.getStartDate()) && d.getEntryDate().isBefore(search.getEndDate())
+                 ) {
+                foundEntries.add(d);
+            }
+            if (d.getEntryDate().isEqual(search.getStartDate()) && d.getEntryDate().isBefore(search.getEndDate())
+                    ){
+                foundEntries.add(d);
+            }
+            if (d.getEntryDate().isAfter(search.getStartDate()) && d.getEntryDate().isEqual(search.getEndDate())
+                    ){
+                foundEntries.add(d);
+            }
+            if (d.getEntryDate().isEqual(search.getStartDate()) && d.getEntryDate().isEqual(search.getEndDate())
+                    ){
+                foundEntries.add(d);
+            }
+        }
+        for(Entry e : foundEntries){
+            if(e.getFrequency().equalsIgnoreCase("single")){
+                singleEntries.add(e);
+            }
+        }
+        return singleEntries;
     }
 }

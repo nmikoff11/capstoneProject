@@ -164,18 +164,19 @@
                 </form>                
             </div>
             <div class="row col-md-6" id="row6" style="padding:0; margin:inherit;" >
-                <h2>All Categories</h2>
+                <h2 style="color: #e6e6ff">All Categories</h2>
                 <div class="col-md-12" id="tableInfo">              
                     <table style="padding-Right:0">
                         <thead>
-                            <tr>
-                                <th style="width:30px">Id</th>
+                            <tr>                                
                                 <th>Category-Name</th>
+                                <th>Frequency Type</th>
                             </tr>
                         </thead>
                         <tr th:each="category: ${categories}">
-                            <td th:text="${category.id}"></td>
                             <td th:text="${category.categoryName}"></td>
+                            <td th:text="${category.frequency}"></td>
+                            
                             </div>
                     </table>
                     <br>

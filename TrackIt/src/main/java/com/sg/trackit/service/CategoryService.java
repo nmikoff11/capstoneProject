@@ -19,8 +19,10 @@ public interface CategoryService {
      List<Category> quickAddCategory();
      
      public void save(Category category);
-
-     Result deleteById(int categoryId);
+ 
+     public List<Category> activeCategories(List<Category> categories);
+     
+     public void disableById(List<Category> categories, int categoryId);
          
      
 }

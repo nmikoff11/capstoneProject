@@ -12,6 +12,7 @@ import com.sg.trackit.models.RangeTotal;
 import com.sg.trackit.models.SearchCriteria;
 import com.sg.trackit.models.dayTotal;
 import java.util.List;
+import javax.xml.bind.ValidationException;
 
 /**
  *
@@ -30,12 +31,14 @@ public interface EntryService {
     
     Entry defaultCategory(Entry entry, List<Category> categories);
     
-    List<RangeTotal> rangeTotals(List<dayTotal> totals);
+    List<RangeTotal> rangeTotals(List<dayTotal> totals) throws ValidationException;
     
     public List<Entry> findEntriesByDates(SearchCriteria search, List<Entry> entries);
     
-    public List<Entry> makePaycheckEntries(Paycheck paycheck, List<dayTotal> dayTotals, List<Category> categories);
+    public List<Entry> makePaycheckEntries(Paycheck paycheck, List<dayTotal> dayTotals, List<Category> categories) throws ValidationException;
     
-    public List<Entry> makeEntries(Entry entry, List<dayTotal> dayTotals, List<Category> categories);
+    public List<Entry> makeEntries(Entry entry, List<dayTotal> dayTotals, List<Category> categories) throws ValidationException;
+    
+    public List<Entry> findSingleEntriesByDates(SearchCriteria search, List<Entry> entries);
         
 }

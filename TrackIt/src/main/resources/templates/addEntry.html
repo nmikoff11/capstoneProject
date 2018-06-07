@@ -192,19 +192,19 @@
         </div>
         <div class="row col-md-6" id="row6">
             <div class="col-md-12" id="tableInfo">
-                <h2 style="color: #e6e6ff; text-align: right" >Tracked It</h2>
+                <h2 style="color: #e6e6ff; text-align: center" >Tracked It</h2>
 
                 <table style="padding-Right:0">
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Category</th>
+                            <th>Category Name</th>
                             <th>Amount</th>
                         </tr>
                     </thead>
                     <tr th:each="entry: ${entriesAdded}">
                         <td th:text="${entry.entryDate}"></td>
-                        <td th:text="${entry.Category.id}"></td>
+                        <td th:text="${entry.category.categoryName}"></td> 
                         <td th:text="${entry.amount}"></td>                                    
                         </div>
                 </table>
