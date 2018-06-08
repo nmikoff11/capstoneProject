@@ -1,0 +1,175 @@
+<html>
+    <head>
+        <title>Home Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+              crossorigin="anonymous">
+        <script type="text/template" id="trackIt"></script>
+    </head>
+    <style>
+
+        a{
+            display: block;
+            text-decoration: none;
+            margin-right: 0;   /* space between links */
+            width: auto; /* adjust width as needed or use auto */
+            font-weight: bold;
+            color: black;
+        }
+        h1{
+            text-align: left;
+            text-shadow: 2px 2px whitesmoke;
+            font-style: normal;
+            font-size: 80px;
+            background-position: center;
+            border: black 2px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        #quickform{
+            background-image: url("categoriesBackground.jpg");
+            border: 2px solid black;
+            height:auto;
+            box-shadow: 10px 6px 5px grey;
+            font-weight: bold;
+            color:  #99ff99;
+        }
+        hr{
+            size: 3px;
+        }
+        button {
+            background-color: green;
+            color: whitesmoke;
+            padding: 15px 32px;
+            text-align: center;
+            box-shadow: 2px 1px black;
+            display: inline-block;
+            font-size: 16px;
+        }
+        #boxshadow img {
+            width: 100%;
+            border: 1px solid #8a4419;
+            border-style: inset;
+        }
+        footer{
+            background-color: black;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding: 0;
+        }
+        #navBar{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: block;
+            color: #e6e6ff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        #addButton{
+            background-color: #000080;
+            border: 2px solid white;                
+            padding: 10px 15px;
+            color: white;
+            text-align: center;
+            display: inline-block;
+            font-size: 20px;
+            border-radius: 6px;
+        }
+
+        /* Change the link color to #111 (black) on hover */
+        li a:hover {
+            background-color: #111;
+        }
+
+    </style>
+    <body background="moneyBannerCopy.jpg">
+        <div class="header" style="padding: 0;">
+            <h1> TrackIt</h1>
+            <ul id="navBar">
+                <li>
+                    <a href="/index"><font size="4"><span class="glyphicon glyphicon-home"></span>Home</font></a>
+                </li>
+                <li>
+                    <a href="/addEntry"><font size="4"><span class="glyphicon glyphicon-plus"></span>Add Entry</font></a>
+                </li>
+                <li>
+                    <a href="/findEntry"><font size="4"><span class="glyphicon glyphicon-calendar"></span>Date-Range Overview</font></a>
+                </li>
+                <li>
+                    <a href="/addCategory"><font size="4"><span class="glyphicon glyphicon-calendar"></span>Add Categories</font></a>
+                </li>
+                <li>
+                    <a href="/paycheck"><font size="4"><span class="glyphicon glyphicon-usd"></span>Income</font></a>
+                </li>
+                <li>
+                    <a href="/deleteCategory"><font size="4"><span class="glyphicon glyphicon-minus"></span>Delete Category</font></a>
+                </li>                
+            </ul>
+        </div>
+        <div class="container-fluid" style="background-color: #E0E0E0; margin: none; padding-top: 20px; background-image: url(whiteBackground.jpg)">
+            <div class="col-md-4">
+                <div class="row" id="row2">
+                    <div class="col-md-12" id="quickForm">
+                        <form method="POST">
+                            <div class="form-check col-md-8" style="color: #e6e6ff">
+                                <h3 style="text-align: center">Quick Add</h3>
+                                <hr/>
+                                <ul style="list-style-type: none" th:each="category: ${categories}" id="quickAddList">
+                                    <li><input type="radio" name="category.id" th:text="${category.categoryName} + '   $' + ${category.standardValue}" th:value="${category.id}"><font size="4"></font></li>
+
+                                </ul>
+                                <div>
+                                    <input type="hidden" name="entryType.entryTypeId" value="1">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="input-group date col-md-8" style="color: #e6e6ff;">
+                                <br>
+                                <hr/>
+                                <span class="glyphicon glyphicon-calendar"></span>
+                                <label for="datepickerHomepage">Date:</label>
+                                <input type="date" name="entryDate" class="form-control" id="datepickerHomepage" th:value="${entry.entryDate}">
+                                <div class="col-md-4" style="color: #e6e6ff;">
+                                    <input type="hidden" name="amount" value="0" id="amountBox">
+                                </div>
+                            </div>
+                            <br>
+                            <button type="submit" id="addButton">Add Expense</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row" id="rowRight">
+                    <div class="col-md-12">
+                        <img src="pennyJar.jpg" height="250" width="400" style="border:8px solid black">
+                    </div>
+                    <div class="col-md-6" id="pieChart">                        
+                    </div>
+                </div>
+            </div>
+            <div class="footer" style="background-color: black">
+            </div>
+            
+            
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+            <script src="js/jquery-2.2.4.min.js"></script>
+            <script src="https://d3js.org/d3.v5.min.js"></script>
+            <script src="js/d3pie.min.js"></script>
+            <script src="js/trackit.js"></script>            
+            
+    </body>
+</html>

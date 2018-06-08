@@ -1,0 +1,264 @@
+<html>
+    <head>
+        <title>Add Category</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+              crossorigin="anonymous">
+        <script type="text/template" id="trackIt"></script>
+
+        <style>
+            a{
+                display: block;
+                text-decoration: none;
+                margin-right: 0;   /* space between links */
+                width: auto; /* adjust width as needed or use auto */
+                font-weight: bold;
+                color: black;
+            }
+            h1{
+                text-align: center;
+                text-shadow: 2px 2px grey;
+                font-style: normal;
+                font-size: 72px;
+                color: #102a54;
+                border: black 2px;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            #quickAdd{
+                background-color: white;
+                border: 2px solid black;
+                height:auto;
+                box-shadow: 10px 6px 5px grey;
+            }
+            h2{
+                text-align: Right;
+                text-shadow: 2px 2px grey;
+                font-style: normal;
+                color: #102a54;
+                border: black 2px;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            hr{
+                margin-top: 0.5em;
+                margin-bottom: 0.5em;
+                margin-left: auto;
+                margin-right: auto;
+                border-style: solid;
+                border-width: 4px;
+            }
+            li{
+                border-left: 1px solid grey;
+                border-bottom: 1px solid grey;
+            }
+            #addButton{
+                background-color: #000080;
+                border: 2px solid white;                
+                padding: 10px 15px;
+                color: white;
+                text-align: center;
+                display: inline-block;
+                font-size: 20px;
+                border-radius: 6px;
+            }
+
+            #boxshadow img {
+                width: 100%;
+                border: 1px solid #8a4419;
+                border-style: inset;
+            }
+            footer{
+                background-color: black;
+                margin-top: 0;
+                margin-bottom: 0;
+                padding: 0;
+            }
+
+            th{
+                border: 2px solid black;
+                background-color: #000080;
+                color: #e6e6ff;
+                text-align: center;
+                padding: 10px;
+            }
+
+            td{
+                border: 3px solid black;
+                background-color: white;
+                color: black
+
+            }
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+            }
+            li {
+                float: left;
+            }
+
+            li a {
+                display: block;
+                color: #e6e6ff;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+            /* Change the link color to #111 (black) on hover */
+            li a:hover {
+                background-color: #111;
+            }
+            #pageBody{
+                background-image: url("categoriesBackground.jpg")
+            }
+
+        </style>
+    </head>
+    <body background="moneyBannerCopy.jpg">
+        <div class="header" style="">
+            <h1>TrackIt</h1>
+            <ul>
+                <li><a href="/index"><font size="4"><span class="glyphicon glyphicon-home"></span>Home</font></a>
+                </li>
+                <li><a href="/addEntry"><font size="4"><span class="glyphicon glyphicon-plus"></span>Add Entry</font></a>
+                </li>
+                <li>
+                    <a href="/findEntry"><font size="4"><span class="glyphicon glyphicon-calendar"></span>Date-Range Overview</font></a>
+                </li>
+                <li>
+                    <a href="/addCategory"><font size="4"><span class="glyphicon glyphicon-plus"></span>Add Categories</font></a>
+                </li>
+                <li>
+                    <a href="/paycheck"><font size="4"><span class="glyphicon glyphicon-usd"></span>Income</font></a>
+                </li>
+                <li>
+                    <a href="/deleteCategory"><font size="4"><span class="glyphicon glyphicon-minus"></span>Delete Category</font></a>
+                </li>
+            </ul>
+        </div>
+        <div class="container-fluid" style= " padding-top: 20px;" id="pageBody">
+           <h2 style="text-align: left; color: #e6e6ff;">Add category to Quick Add</h2>
+            <div class="row" id="row5">
+                <form method="POST">
+                    <div class="col-md-6">
+                        <label for="nameOfCategory" style="color: #e6e6ff;">Name: </label>
+                        <input type="text" name="categoryName" id="nameOfCategory">
+                    </div>
+                    <div class="col-md-6">                          
+                        <input type="hidden" name="isActive" value="true">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="standardValue" style="color: #e6e6ff;">Amount: </label>
+                        <input type="text" name="standardValue" id="standardValue">
+                    </div> 
+                    <div class="col-md-6" style="color: #e6e6ff;">
+                        <input type="hidden" name="isDefault" value="1" id="nameOfCategory">
+                    </div>                                            
+                    <input type="hidden" name="isAlwaysExpense" value="1" >
+                    <br>
+                    <h3 style="color: #e6e6ff; text-align: left">Category frequency</h2>
+                    <div class="col-md-12">                    
+                        <div class="col-md-3" style="color: #e6e6ff;">                          
+                            <input type="radio" name="frequency" value="single" ><font size="3">Single</font>
+                        </div>
+                        <div class="col-md-3" style="color: #e6e6ff;"> 
+                            <input type="radio" name="frequency" value="weekly"><font size="3">Weekly</font>
+                        </div>
+                        <div class="col-md-3" style="color: #e6e6ff;"> 
+                            <input type="radio" name="frequency" value="monthly"><font size="3">Monthly</font>
+                        </div>                    
+                        <div class="col-md-3" style="color: #e6e6ff;"> 
+                        <input type="radio" name="frequency" value="yearly"><font size="3">Yearly</font>
+                        </div>
+                    </div>
+                    <button type="submit" id="addButton">Add Quick Category</button>
+                </form>
+             </div>
+           <h2 style=" text-align: left; color: #e6e6ff">Add Standard-Category </h2>
+            <div class="row" id="row5">
+                <form method="POST">
+                    <div class="col-md-6" >
+                        <label for="nameOfCategory" style="color: #e6e6ff">Name: </label>
+                        <input type="text" name="categoryName" id="nameOfCategory">
+                    </div>                     
+                    <div class="col-md-6">
+                        <input type="hidden" name="isDefault" value="0" id="nameOfCategory">
+                    </div>
+                    <div class="col-md-6">                          
+                        <input type="hidden" name="isAlwaysExpense" value="0">
+                    </div> 
+                    <div class="col-md-6">                          
+                        <input type="hidden" name="isActive" value="true">
+                    </div>
+                    
+                    <div class="col-md-12">                    
+                        <div class="col-md-3" style="color: #e6e6ff;">                          
+                            <input type="radio" name="frequency" value="single" ><font size="3">Single</font>
+                        </div>
+                        <div class="col-md-3" style="color: #e6e6ff;"> 
+                            <input type="radio" name="frequency" value="weekly"><font size="3">Weekly</font>
+                        </div>
+                        <div class="col-md-3" style="color: #e6e6ff;"> 
+                            <input type="radio" name="frequency" value="monthly"><font size="3">Monthly</font>
+                        </div>                    
+                        <div class="col-md-3" style="color: #e6e6ff;"> 
+                        <input type="radio" name="frequency" value="yearly"><font size="3">Yearly</font>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" id="addButton">Add Category</button>
+                </form>                
+            </div>           
+            <div class="row col-md-6" id="row6" style="padding:0; margin:inherit;" >
+                <h2 style="color: #e6e6ff;">Quick-Add Expense Categories</h2>
+                <div class="col-md-12" id="tableInfo">              
+                    <table style="padding-Right:0">
+                        <thead>
+                            <tr>
+                                
+                                <th>Category Name</th>                    
+                                <th>Set-Amount</th>
+                            </tr>
+                        </thead>
+                        <tr th:each="category: ${quickAddList}">                            
+                            <td th:text="${category.categoryName}"></td>
+                            <td th:text="'$' + ${category.standardValue}"></td>
+
+                            </div>
+                    </table>
+                    <br>
+                </div>
+            </div>
+            <div class="row col-md-6" id="row6" style="padding:0; margin:inherit;" >
+                <h2 style="color: #e6e6ff;">All Categories</h2>
+                <div class="col-md-12" id="tableInfo">              
+                    <table style="padding-Right:0">
+                        <thead>
+                            <tr>
+                                
+                                <th>Category-Name</th>
+                            </tr>
+                        </thead>
+                        <tr th:each="category: ${categories}">
+                            <td th:text="${category.categoryName}"></td>
+                            </div>
+                    </table>
+                    <br>
+                </div>
+            </div>
+            <div class="footer" style="background-color: black">
+            </div>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+            <!-- Optional theme -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+            <script src="js/trackit.js "></script>
+    </body>
+</html>
